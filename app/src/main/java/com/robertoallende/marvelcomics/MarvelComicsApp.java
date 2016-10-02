@@ -14,10 +14,13 @@ import com.robertoallende.marvelcomics.service.MyGcmJobService;
 import com.robertoallende.marvelcomics.service.MyJobService;
 import com.google.android.gms.common.GoogleApiAvailability;
 
+import timber.log.*;
+
 public class MarvelComicsApp extends Application {
 
     private static MarvelComicsApp instance;
     private JobManager jobManager;
+    private Timber timber;
 
     public MarvelComicsApp() {
         instance = this;
@@ -85,6 +88,15 @@ public class MarvelComicsApp extends Application {
     public static MarvelComicsApp getInstance() {
         return instance;
     }
-}
+
+    public synchronized Timber getTimber() {
+        if (timber == null) {
+            if (BuildConfig.DEBUG) {
+                Timber.plant(new Timber.DebugTree());
+
+            }
+        }
+        return timber;
+    }
 
 }

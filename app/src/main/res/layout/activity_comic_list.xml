@@ -10,7 +10,8 @@
     tools:context=".view.ComicList">
 
     <TextView
+        android:id="@+id/comic_list_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Loading, please wait..." />
 </RelativeLayout>
