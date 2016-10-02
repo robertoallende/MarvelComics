@@ -32,24 +32,7 @@ public class ComicList extends BaseActivity {
         super.onCreate(savedInstanceState);
         dataDirty = true;
         setContentView(R.layout.activity_comic_list);
-
-        /*
-        Init Adapter
-        ListView listView = (ListView) findViewById(R.id.tweet_list);
-        tweetAdapter = new TweetAdapter(getLayoutInflater());
-        findViewById(R.id.send_tweet).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText text = (EditText) findViewById(R.id.edit_status);
-                if(text.getText().toString().trim().length() > 0) {
-                    sendTweet(text.getText().toString());
-                    text.setText("");
-                }
-            }
-        });
-        listView.setAdapter(tweetAdapter);
-        */
-
+        
         EventBus.getDefault().register(this);
     }
 
