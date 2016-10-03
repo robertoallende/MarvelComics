@@ -1,4 +1,4 @@
-package com.robertoallende.marvelcomics.view;
+package com.robertoallende.marvelcomics.view.helper;
 
 import android.support.v7.app.AppCompatActivity;
 

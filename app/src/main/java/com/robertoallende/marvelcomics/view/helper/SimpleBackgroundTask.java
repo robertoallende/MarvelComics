@@ -1,4 +1,4 @@
-package com.robertoallende.marvelcomics.view;
+package com.robertoallende.marvelcomics.view.helper;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import java.lang.ref.WeakReference;
 
 abstract public class SimpleBackgroundTask<T> extends AsyncTask<Void, Void, T> {
-    WeakReference<Activity> weakActivity;
+    public WeakReference<Activity> weakActivity;
     public SimpleBackgroundTask(Activity activity) {
         weakActivity = new WeakReference<Activity>(activity);
     }
@@ -30,4 +30,8 @@ abstract public class SimpleBackgroundTask<T> extends AsyncTask<Void, Void, T> {
     abstract protected T onRun();
 
     abstract protected void onSuccess(T result);
+
+    public Activity getActivity() {
+        return weakActivity.get();
+    }
 }
