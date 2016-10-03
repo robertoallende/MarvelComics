@@ -5,11 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.birbit.android.jobqueue.JobManager;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.robertoallende.marvelcomics.MarvelComicsApp;
 import com.robertoallende.marvelcomics.R;
 import com.robertoallende.marvelcomics.controller.ComicController;
 import com.robertoallende.marvelcomics.entity.Comic;
@@ -22,7 +17,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-public class ComicList extends BaseActivity {
+public class ComicListActivity extends BaseActivity {
 
     // private ComicAdapter comicAdapter;
     private boolean dataDirty = true;
@@ -32,11 +27,11 @@ public class ComicList extends BaseActivity {
         super.onCreate(savedInstanceState);
         dataDirty = true;
         setContentView(R.layout.activity_comic_list);
-        
+
         EventBus.getDefault().register(this);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe
     public void onEventMainThread(FetchComicListEvent eventResult) {
         if (eventResult.isSuccess()) {
             onUpdateEvent();
@@ -73,22 +68,30 @@ public class ComicList extends BaseActivity {
     }
 
     private void refreshList() {
-        TextView textView = (TextView) findViewById(R.id.comic_list_text);
-        String text = "";
 
-        ComicListLocalModel comicListLocalModel = ComicListLocalModel.getInstance(this);
-        List<Comic> comicList = comicListLocalModel.recover();
+        new SimpleBackgroundTask<List<Comic>>(this) {
+            @Override
+            protected List<Comic> onRun() {
+                ComicListLocalModel comicListLocalModel = ComicListLocalModel.getInstance(weakActivity.get());
+                List<Comic> comicList = comicListLocalModel.recover();
+                return comicList;
+            }
 
-        if (comicList == null || comicList.size() == 0) {
-            return;
-        }
+            @Override
+            protected void onSuccess(List<Comic> comicList) {
+                TextView textView = (TextView) findViewById(R.id.comic_list_text);
+                String text = "";
+                if (comicList == null || comicList.size() == 0) {
+                    return;
+                }
 
-        for (Comic comic : comicList) {
-            text += comic.title + "\n";
-        }
+                for (Comic comic : comicList) {
+                    text += comic.title + "\n";
+                }
 
-        textView.setText(text);
-
+                textView.setText(text);
+            }
+        }.execute();
     }
 
 }
