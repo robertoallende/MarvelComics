@@ -7,7 +7,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/cardview_comic_item"
     android:layout_width="@dimen/cardview_comic_width"
-    android:layout_height="200dp"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="4dp"
     android:layout_marginRight="4dp"
     android:layout_marginTop="4dp"
@@ -20,6 +20,11 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/cardview_comic_item_image"
+            android:layout_height="450dp"
+            android:layout_width="300dp" />
 
         <TextView
             android:id="@+id/cardview_comic_item_title"

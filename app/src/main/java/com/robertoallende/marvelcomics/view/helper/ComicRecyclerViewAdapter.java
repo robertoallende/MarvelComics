@@ -6,11 +6,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.robertoallende.marvelcomics.MarvelComicsApp;
 import com.robertoallende.marvelcomics.R;
 import com.robertoallende.marvelcomics.entity.Comic;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -38,6 +40,7 @@ public class ComicRecyclerViewAdapter extends RecyclerView.Adapter<ComicRecycler
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mTitle.setText(mValues.get(position).title);
+        Picasso.with(mContext).load(holder.mItem.thumbnail.getFullUrl()).into(holder.mImage);
     }
 
     public List<Comic> getItems() {
@@ -52,12 +55,14 @@ public class ComicRecyclerViewAdapter extends RecyclerView.Adapter<ComicRecycler
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final View mView;
         public final TextView mTitle;
+        public final ImageView mImage;
         public Comic mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mTitle = (TextView) view.findViewById(R.id.cardview_comic_item_title);
+            mImage = (ImageView) view.findViewById(R.id.cardview_comic_item_image);
         }
 
         @Override
