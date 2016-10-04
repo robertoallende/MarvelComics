@@ -10,6 +10,8 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -17,11 +19,22 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
+        exclude module: 'support-annotations'
+    }
+    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2'
+    androidTestCompile 'com.android.support:support-v4:24.2.0'
+
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile 'com.android.support:support-annotations:24.2.0'
+
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.android.support:design:24.2.0'
     compile 'com.birbit:android-priority-jobqueue:2.0.0'
@@ -33,4 +46,12 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.android.support:recyclerview-v7:24.2.0'
+
 }
+
+configurations.all {resolutionStrategy.force "com.android.support:appcompat-v7:23.1.0"}
+configurations.all {resolutionStrategy.force "com.android.support:design:23.1.0"}
+configurations.all {resolutionStrategy.force "com.android.support:support-annotations:23.1.0"}
+configurations.all {resolutionStrategy.force "com.android.support:recyclerview-v7:23.1.0"}
+configurations.all {resolutionStrategy.force "com.android.support:support-v4:24.2.0"}
