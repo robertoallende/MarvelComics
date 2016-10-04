@@ -9,10 +9,8 @@ import com.birbit.android.jobqueue.config.Configuration;
 import com.birbit.android.jobqueue.log.CustomLogger;
 import com.birbit.android.jobqueue.scheduling.FrameworkJobSchedulerService;
 import com.birbit.android.jobqueue.scheduling.GcmJobSchedulerService;
-import com.google.android.gms.common.ConnectionResult;
 import com.robertoallende.marvelcomics.service.MyGcmJobService;
 import com.robertoallende.marvelcomics.service.MyJobService;
-import com.google.android.gms.common.GoogleApiAvailability;
 
 import timber.log.*;
 
@@ -68,12 +66,6 @@ public class MarvelComicsApp extends Application {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder.scheduler(FrameworkJobSchedulerService.createSchedulerFor(this,
                     MyJobService.class), true);
-        } else {
-            int enableGcm = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
-            if (enableGcm == ConnectionResult.SUCCESS) {
-                builder.scheduler(GcmJobSchedulerService.createSchedulerFor(this,
-                        MyGcmJobService.class), true);
-            }
         }
         jobManager = new JobManager(builder.build());
     }

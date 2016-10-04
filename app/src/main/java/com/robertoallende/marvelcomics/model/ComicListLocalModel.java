@@ -30,7 +30,15 @@ public class ComicListLocalModel {
     }
 
     public void save(List<Comic> results) {
-        String resultAsJSON = new Gson().toJson(results);
+        String resultAsJSON;
+
+        List<Comic> comicList = recover();
+        if (comicList != null && comicList.size() > 0) {
+            comicList.addAll(results);
+            resultAsJSON = new Gson().toJson(comicList);
+        } else {
+            resultAsJSON = new Gson().toJson(results);
+        }
         SharedPreferences.Editor editor = mPrefs.edit();
         editor.putString(Config.APP_KEY, resultAsJSON);
         editor.apply();
@@ -44,4 +52,13 @@ public class ComicListLocalModel {
                 }.getType());
         return result;
     }
+
+    public int size() {
+        List<Comic> comicList = recover();
+        if (comicList == null) {
+            return 0;
+        }
+        return comicList.size();
+    }
+
 }

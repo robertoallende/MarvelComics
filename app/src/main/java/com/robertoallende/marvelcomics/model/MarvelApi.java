@@ -9,9 +9,13 @@ public interface MarvelApi {
 
 
     @GET("/v1/public/comics")
-    Call<ComicDataWrapper> getComicList(@Query("ts") String ts,
+    Call<ComicDataWrapper> getComicList(@Query("orderBy") String orderBy,
+                                        @Query("limit") String limit,
+                                        @Query("offset") String offset,
+                                        @Query("ts") String ts,
                                         @Query("apikey") String apiKey,
                                         @Query("hash") String hash);
+
 
 
 }

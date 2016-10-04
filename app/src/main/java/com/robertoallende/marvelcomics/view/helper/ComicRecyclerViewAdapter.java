@@ -1,21 +1,16 @@
 package com.robertoallende.marvelcomics.view.helper;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.robertoallende.marvelcomics.MarvelComicsApp;
 import com.robertoallende.marvelcomics.R;
 import com.robertoallende.marvelcomics.entity.Comic;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 import java.util.List;
 
@@ -23,7 +18,7 @@ import timber.log.Timber;
 
 public class ComicRecyclerViewAdapter extends RecyclerView.Adapter<ComicRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Comic> mValues;
+    private List<Comic> mValues;
     private Context mContext;
 
     public ComicRecyclerViewAdapter(Context context, List<Comic> items) {
@@ -43,10 +38,11 @@ public class ComicRecyclerViewAdapter extends RecyclerView.Adapter<ComicRecycler
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mTitle.setText(mValues.get(position).title);
-        holder.mSubtitle.setText(mValues.get(position).series.name);
+        holder.mSubtitle.setText(mValues.get(position).format);
 
         Picasso.with(mContext)
                 .load(holder.mItem.thumbnail.getFullUrl())
+                .placeholder(R.drawable.marvel_portrait_uncanny)
                 .into(holder.mImage);
 
     }
@@ -57,7 +53,18 @@ public class ComicRecyclerViewAdapter extends RecyclerView.Adapter<ComicRecycler
 
     @Override
     public int getItemCount() {
+        if (mValues == null) {
+            return 0;
+        }
         return mValues.size();
+    }
+
+    public void replaceItems(List<Comic> newItems){
+        if (newItems == null) {
+            return;
+        }
+        mValues = newItems;
+        notifyItemInserted(newItems.size() - 1);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

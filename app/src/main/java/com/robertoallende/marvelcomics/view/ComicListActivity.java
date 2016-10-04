@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
+import com.robertoallende.marvelcomics.MarvelComicsApp;
 import com.robertoallende.marvelcomics.R;
 import com.robertoallende.marvelcomics.controller.ComicController;
 import com.robertoallende.marvelcomics.entity.Comic;
@@ -18,7 +19,10 @@ import com.robertoallende.marvelcomics.view.helper.SimpleBackgroundTask;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class ComicListActivity extends RecyclerViewActivity {
 
@@ -37,6 +41,30 @@ public class ComicListActivity extends RecyclerViewActivity {
             int columnCount = getResources().getInteger(R.integer.grid_columns);
             mRecyclerView.setLayoutManager(new GridLayoutManager(this, columnCount));
         }
+
+        mRecyclerView.setAdapter(new ComicRecyclerViewAdapter(this, new ArrayList<Comic>()));
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dataDirty) {
+                    return;
+                }
+
+                GridLayoutManager layoutManager = (GridLayoutManager) mRecyclerView.getLayoutManager();
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
+                if (pastVisiblesItems + visibleItemCount >= totalItemCount) {
+                    Timber timber = MarvelComicsApp.getInstance().getTimber();
+                    timber.d("Geting more comics");
+
+                    ComicController comicController = ComicController.getInstance(getApplicationContext());
+                    comicController.fetchComicList();
+                }
+            }
+        });
+
 
         EventBus.getDefault().register(this);
     }
@@ -89,8 +117,16 @@ public class ComicListActivity extends RecyclerViewActivity {
 
             @Override
             protected void onSuccess(List<Comic> comicList) {
-                mRecyclerView.setAdapter(new ComicRecyclerViewAdapter(getActivity(), comicList));
+                if (mRecyclerView.getAdapter() != null) {
+                    ComicRecyclerViewAdapter adapter = (ComicRecyclerViewAdapter) mRecyclerView.getAdapter();
+                    adapter.replaceItems(comicList);
+                } else {
+                    mRecyclerView.setAdapter(new ComicRecyclerViewAdapter(getActivity(), comicList));
+                }
             }
         }.execute();
     }
+
+
+
 }

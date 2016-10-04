@@ -35,12 +35,18 @@ public class ComicListRemoteModel {
 
     }
 
-    public List<Comic> getComicList() {
+    public List<Comic> getComicList(int currentSize) {
         Response<ComicDataWrapper> callResult = null;
         MarvelApi marvelApi = mRetrofit.create(MarvelApi.class);
 
         String ts = String.valueOf(System.currentTimeMillis());
-        Call<ComicDataWrapper> call = marvelApi.getComicList(ts, Config.MARVEL_PUBLIC_KEY, Config.getHash(ts));
+        Call<ComicDataWrapper> call = marvelApi.getComicList(
+                "title",
+                "10",
+                String.valueOf(currentSize),
+                ts,
+                Config.MARVEL_PUBLIC_KEY,
+                Config.getHash(ts));
 
         try {
             callResult = call.execute();

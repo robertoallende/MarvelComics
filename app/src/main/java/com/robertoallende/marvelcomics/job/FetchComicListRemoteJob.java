@@ -29,16 +29,18 @@ public class FetchComicListRemoteJob extends MarvelComicsJob{
     @Override
     public void onRun() throws Throwable {
         Timber timber = MarvelComicsApp.getInstance().getTimber();
-        timber.d("------> To Get ComicList", "");
+        timber.d("To Get ComicList", "");
+
+        ComicListLocalModel comicListLocalModel = ComicListLocalModel.getInstance(mContext);
 
         ComicListRemoteModel comicListRemoteModelModel = new ComicListRemoteModel();
-        List<Comic> comicList = comicListRemoteModelModel.getComicList();
+        List<Comic> comicList = comicListRemoteModelModel.getComicList( comicListLocalModel.size()  );
         FetchComicListEvent fetchComicListEvent;
 
-        timber.d("------> ComicList", comicList);
+        timber.d("ComicList", comicList);
 
         if (comicList != null && comicList.size() > 0) {
-            ComicListLocalModel comicListLocalModel = ComicListLocalModel.getInstance(mContext);
+
             comicListLocalModel.save(comicList);
             fetchComicListEvent = new FetchComicListEvent(true);
         } else {
