@@ -1,13 +1,14 @@
 package com.robertoallende.marvelcomics.view;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
 
 import com.robertoallende.marvelcomics.MarvelComicsApp;
 import com.robertoallende.marvelcomics.R;
+import com.robertoallende.marvelcomics.Utils;
 import com.robertoallende.marvelcomics.controller.ComicController;
 import com.robertoallende.marvelcomics.entity.Comic;
 import com.robertoallende.marvelcomics.event.FetchComicListEvent;
@@ -58,15 +59,17 @@ public class ComicListActivity extends RecyclerViewActivity {
                 if (pastVisiblesItems + visibleItemCount >= totalItemCount) {
                     Timber timber = MarvelComicsApp.getInstance().getTimber();
                     timber.d("Geting more comics");
-
+                    checkNetwork();
                     ComicController comicController = ComicController.getInstance(getApplicationContext());
                     comicController.fetchComicList();
+
                 }
             }
         });
 
-
+        checkNetwork();
         EventBus.getDefault().register(this);
+
     }
 
     @Subscribe
@@ -127,6 +130,15 @@ public class ComicListActivity extends RecyclerViewActivity {
         }.execute();
     }
 
+    public void checkNetwork() {
+        if (! Utils.isOnline(this)) {
+            CoordinatorLayout coordinatorLayout = (CoordinatorLayout)
+                    findViewById(R.id.activity_comic_list_coordinatorlayout);
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, getResources().getString(R.string.error_connection), Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
+    }
 
 
 }

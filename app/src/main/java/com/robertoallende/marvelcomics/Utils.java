@@ -1,5 +1,9 @@
 package com.robertoallende.marvelcomics;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import java.security.MessageDigest;
 
 public class Utils {
@@ -19,6 +23,13 @@ public class Utils {
         } catch (Exception exc) {
             return ""; // Impossibru!
         }
+    }
+
+    public static boolean isOnline(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
 }
