@@ -6,12 +6,72 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.robertoallende.marvelcomics.view.ComicActivity"
-    tools:showIn="@layout/activity_comic">
+    tools:showIn="@layout/activity_comic"
+    android:background="@color/white">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/text_margin"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_marginStart="@dimen/sides_margin"
+            android:layout_marginEnd="@dimen/sides_margin"
+            android:id="@+id/comic_activity_title"
+            android:textSize="22dp"
+            android:textStyle="bold"
+            />
+
+        <!--
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/text_margin"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_marginStart="@dimen/sides_margin"
+            android:layout_marginEnd="@dimen/sides_margin"
+            android:id="@+id/comic_activity_description"
+            android:textSize="16dp"/>
+            -->
+
+        <WebView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/webView"
+            android:layout_marginStart="@dimen/sides_margin"
+            android:layout_marginEnd="@dimen/sides_margin"
+            />
+
+        <TextView
+            android:text="@string/title_characters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_marginStart="@dimen/sides_margin"
+            android:layout_marginEnd="@dimen/sides_margin"
+            android:id="@+id/comic_activity_characters_title"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/text_margin"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_marginStart="@dimen/sides_margin"
+            android:layout_marginEnd="@dimen/sides_margin"
+            android:id="@+id/comic_activity_characters"
+            android:textSize="16dp"
+            />
+
+
+    </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

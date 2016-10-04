@@ -1,8 +1,11 @@
 package com.robertoallende.marvelcomics;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.view.Display;
 
 import java.security.MessageDigest;
 
@@ -32,4 +35,25 @@ public class Utils {
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
+    public static Point getDisplayPoints(Activity context){
+        Display display = context.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size;
+    }
+
+    public static int getWidth(Activity context) {
+        return getDisplayPoints(context).x;
+    }
+
+    public static int getHeight(Activity context) {
+        return getDisplayPoints(context).y;
+    }
+
+    public static String checkNullString(String item) {
+        if (item == null) {
+            return "";
+        }
+        return item;
+    }
 }
