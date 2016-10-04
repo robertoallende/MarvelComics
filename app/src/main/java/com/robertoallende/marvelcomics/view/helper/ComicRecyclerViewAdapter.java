@@ -1,6 +1,7 @@
 package com.robertoallende.marvelcomics.view.helper;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.robertoallende.marvelcomics.MarvelComicsApp;
 import com.robertoallende.marvelcomics.R;
 import com.robertoallende.marvelcomics.entity.Comic;
+import com.robertoallende.marvelcomics.view.ComicActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -67,7 +69,7 @@ public class ComicRecyclerViewAdapter extends RecyclerView.Adapter<ComicRecycler
         notifyItemInserted(newItems.size() - 1);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder  {
         public final View mView;
         public final TextView mTitle;
         public final TextView mSubtitle;
@@ -81,18 +83,20 @@ public class ComicRecyclerViewAdapter extends RecyclerView.Adapter<ComicRecycler
             mTitle = (TextView) view.findViewById(R.id.cardview_comic_item_title);
             mSubtitle = (TextView) view.findViewById(R.id.cardview_comic_item_subtitle);
             mImage = (ImageView) view.findViewById(R.id.cardview_comic_item_image);
+
+            mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Timber timber = MarvelComicsApp.getInstance().getTimber();
+                    timber.d("MarvelComic", "onClick " + mItem.title);
+                    Intent intent = ComicActivity.makeIntent(mContext, mItem);
+                    mContext.startActivity(intent);
+
+                }
+            });
+
         }
 
-        @Override
-        public String toString() {
-            return super.toString() + " '";
-        }
-
-        @Override
-        public void onClick(View view) {
-            Timber timber = MarvelComicsApp.getInstance().getTimber();
-            timber.d("TEST TEST TEST", "onClick " + getPosition() + " " + mItem);
-        }
 
     }
 }

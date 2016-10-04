@@ -1,6 +1,8 @@
 package com.robertoallende.marvelcomics.entity;
 
-public class StorySummary {
+import java.io.Serializable;
+
+public class StorySummary implements Serializable {
 
     public String resourceURI; // The path to the individual story resource.,
     public String name; // The canonical name of the story.,
