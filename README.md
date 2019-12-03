@@ -19,8 +19,6 @@ A Marvel Comics catalog Application implmented in Native Android Stack.
 
 ## Android Client
 
-![Demo](https://media.giphy.com/media/jggR5vycyfmiA/giphy.gif)
-
 [Watch Demo on youtube.](https://youtu.be/Y2nDMBhNwSw)
 
 ### Compiling and running the client
